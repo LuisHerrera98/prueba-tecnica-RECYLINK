@@ -1,10 +1,12 @@
 import { useEffect, useState, useCallback } from 'react';
 import type { Event, CreateEventPayload } from './types/event';
+import type { AuthUser } from './types/auth';
 import { EventCategory, EventStatus } from './types/event';
-import { getEvents, createEvent } from './services/api';
+import { getEvents, createEvent, removeToken } from './services/api';
 import EventCard from './components/EventCard';
 import EventFilters from './components/EventFilters';
 import EventForm from './components/EventForm';
+import AuthForm from './components/AuthForm';
 import './App.css';
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
   const [showForm, setShowForm] = useState(false);
   const [category, setCategory] = useState('');
   const [status, setStatus] = useState('');
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [showAuth, setShowAuth] = useState(false);
 
   const fetchEvents = useCallback(async () => {
     setLoading(true);
@@ -41,17 +45,44 @@ function App() {
     fetchEvents();
   };
 
+  const handleAuth = (authUser: AuthUser) => {
+    setUser(authUser);
+    setShowAuth(false);
+  };
+
+  const handleLogout = () => {
+    removeToken();
+    setUser(null);
+    setShowForm(false);
+  };
+
   return (
     <div className="app">
       <header className="app__header">
         <h1>EventBoard</h1>
-        <button onClick={() => setShowForm(!showForm)}>
-          {showForm ? 'Ver Eventos' : 'Nuevo Evento'}
-        </button>
+        <div className="app__header-actions">
+          {user ? (
+            <>
+              <span className="app__user">{user.name}</span>
+              <button onClick={() => setShowForm(!showForm)}>
+                {showForm ? 'Ver Eventos' : 'Nuevo Evento'}
+              </button>
+              <button className="app__btn-secondary" onClick={handleLogout}>
+                Salir
+              </button>
+            </>
+          ) : (
+            <button onClick={() => setShowAuth(!showAuth)}>
+              {showAuth ? 'Ver Eventos' : 'Iniciar Sesión'}
+            </button>
+          )}
+        </div>
       </header>
 
-      {showForm ? (
-        <EventForm onSubmit={handleCreate} onCancel={() => setShowForm(false)} />
+      {showAuth && !user ? (
+        <AuthForm onAuth={handleAuth} />
+      ) : showForm && user ? (
+        <EventForm onSubmit={handleCreate} onCancel={() => setShowForm(false)} userName={user?.name} />
       ) : (
         <main>
           <EventFilters

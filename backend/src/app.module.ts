@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EventsModule } from './events/events.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { EventsModule } from './events/events.module';
       process.env.MONGODB_URI || 'mongodb://localhost:27020/eventboard',
     ),
     EventsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

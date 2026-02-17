@@ -5,9 +5,10 @@ import { EventCategory, EventStatus } from '../types/event';
 interface Props {
   onSubmit: (payload: CreateEventPayload) => Promise<void>;
   onCancel: () => void;
+  userName?: string;
 }
 
-export default function EventForm({ onSubmit, onCancel }: Props) {
+export default function EventForm({ onSubmit, onCancel, userName }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -20,7 +21,7 @@ export default function EventForm({ onSubmit, onCancel }: Props) {
     const payload: CreateEventPayload = {
       title: formData.get('title') as string,
       description: formData.get('description') as string,
-      date: formData.get('date') as string,
+      date: `${formData.get('date')}T${formData.get('time') || '00:00'}`,
       location: formData.get('location') as string,
       category: formData.get('category') as EventCategory,
       organizer: formData.get('organizer') as string,
@@ -54,14 +55,19 @@ export default function EventForm({ onSubmit, onCancel }: Props) {
 
       <div className="event-form__row">
         <div className="event-form__field">
-          <label htmlFor="date">Fecha y hora</label>
-          <input id="date" name="date" type="datetime-local" required />
+          <label htmlFor="date">Fecha</label>
+          <input id="date" name="date" type="date" required />
         </div>
 
         <div className="event-form__field">
-          <label htmlFor="location">Ubicación</label>
-          <input id="location" name="location" type="text" required />
+          <label htmlFor="time">Hora</label>
+          <input id="time" name="time" type="time" required />
         </div>
+      </div>
+
+      <div className="event-form__field">
+        <label htmlFor="location">Ubicación</label>
+        <input id="location" name="location" type="text" required />
       </div>
 
       <div className="event-form__row">
@@ -86,7 +92,7 @@ export default function EventForm({ onSubmit, onCancel }: Props) {
 
       <div className="event-form__field">
         <label htmlFor="organizer">Organizador</label>
-        <input id="organizer" name="organizer" type="text" required />
+        <input id="organizer" name="organizer" type="text" defaultValue={userName} readOnly={!!userName} />
       </div>
 
       <div className="event-form__actions">

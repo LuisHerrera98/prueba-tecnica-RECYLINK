@@ -21,8 +21,8 @@ export class CreateEventDto {
   category: EventCategory;
 
   @IsString()
-  @IsNotEmpty()
-  organizer: string;
+  @IsOptional()
+  organizer?: string;
 
   @IsEnum(EventStatus)
   @IsOptional()

@@ -27,6 +27,18 @@ body {
   font-size: 1.8rem;
 }
 
+.app__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.app__user {
+  font-size: 0.85rem;
+  color: #666;
+  padding-right: 0.5rem;
+}
+
 .app__header button {
   padding: 0.6rem 1.2rem;
   background: #2563eb;
@@ -39,6 +51,15 @@ body {
 
 .app__header button:hover {
   background: #1d4ed8;
+}
+
+.app__btn-secondary {
+  background: #e5e7eb !important;
+  color: #333 !important;
+}
+
+.app__btn-secondary:hover {
+  background: #d1d5db !important;
 }
 
 .app__message {
@@ -303,4 +324,70 @@ body {
 .event-form__actions button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.auth-form {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.auth-form h2 {
+  margin-bottom: 1rem;
+}
+
+.auth-form__error {
+  color: #dc2626;
+  background: #fef2f2;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+}
+
+.auth-form__actions {
+  margin-top: 1rem;
+}
+
+.auth-form__actions button[type="submit"] {
+  width: 100%;
+  padding: 0.7rem;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.auth-form__actions button[type="submit"]:hover {
+  background: #1d4ed8;
+}
+
+.auth-form__actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-form__toggle {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.auth-form__toggle button {
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0;
+}
+
+.auth-form__toggle button:hover {
+  text-decoration: underline;
 }
