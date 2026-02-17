@@ -1,0 +1,27 @@
+services:
+  mongodb:
+    image: mongo:7
+    ports:
+      - '27020:27017'
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: ./backend
+    ports:
+      - '4000:4000'
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/eventboard
+      - PORT=4000
+    depends_on:
+      - mongodb
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '4001:4001'
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
