@@ -4,10 +4,12 @@ import request from 'supertest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EventsModule } from './events.module';
+import { AuthModule } from '../auth/auth.module';
 
 describe('Events API (integration)', () => {
   let app: INestApplication;
   let mongoServer: MongoMemoryServer;
+  let token: string;
 
   beforeAll(async () => {
     mongoServer = await MongoMemoryServer.create();
@@ -16,12 +18,19 @@ describe('Events API (integration)', () => {
       imports: [
         MongooseModule.forRoot(mongoServer.getUri()),
         EventsModule,
+        AuthModule,
       ],
     }).compile();
 
     app = module.createNestApplication();
     app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
     await app.init();
+
+    const res = await request(app.getHttpServer())
+      .post('/auth/register')
+      .send({ name: 'Test User', email: 'test@test.com', password: '123456' });
+
+    token = res.body.access_token;
   });
 
   afterAll(async () => {
@@ -41,6 +50,7 @@ describe('Events API (integration)', () => {
   it('POST /events should create an event', async () => {
     const response = await request(app.getHttpServer())
       .post('/events')
+      .set('Authorization', `Bearer ${token}`)
       .send(validEvent)
       .expect(201);
 
@@ -49,9 +59,17 @@ describe('Events API (integration)', () => {
     expect(response.body._id).toBeDefined();
   });
 
+  it('POST /events should reject without token', async () => {
+    await request(app.getHttpServer())
+      .post('/events')
+      .send(validEvent)
+      .expect(401);
+  });
+
   it('POST /events should reject invalid data', async () => {
     const response = await request(app.getHttpServer())
       .post('/events')
+      .set('Authorization', `Bearer ${token}`)
       .send({ title: '' })
       .expect(400);
 
