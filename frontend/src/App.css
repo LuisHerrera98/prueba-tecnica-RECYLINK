@@ -25,6 +25,7 @@ body {
 
 .app__header h1 {
   font-size: 1.8rem;
+  cursor: pointer;
 }
 
 .app__header-actions {
@@ -160,6 +161,12 @@ body {
   padding: 1.2rem;
   border-left: 4px solid #2563eb;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+
+.event-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .event-card--cancelled {
@@ -390,4 +397,84 @@ body {
 
 .auth-form__toggle button:hover {
   text-decoration: underline;
+}
+
+.event-detail {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.event-detail__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.event-detail__back,
+.event-detail__edit {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.event-detail__back {
+  background: #e5e7eb;
+  color: #333;
+}
+
+.event-detail__back:hover {
+  background: #d1d5db;
+}
+
+.event-detail__edit {
+  background: #2563eb;
+  color: white;
+}
+
+.event-detail__edit:hover {
+  background: #1d4ed8;
+}
+
+.event-detail__meta {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.event-detail__title {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.event-detail__description {
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.event-detail__info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.event-detail__info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.event-detail__info-item strong {
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.event-detail__info-item span {
+  font-size: 0.95rem;
 }

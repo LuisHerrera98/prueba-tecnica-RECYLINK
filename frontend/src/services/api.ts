@@ -76,3 +76,21 @@ export async function createEvent(payload: CreateEventPayload): Promise<Event> {
   }
   return response.json();
 }
+
+export async function updateEvent(id: string, payload: Partial<CreateEventPayload>): Promise<Event> {
+  const token = getToken();
+  const response = await fetch(`${API_URL}/events/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message?.join?.(', ') || error.message || 'Error al actualizar el evento');
+  }
+  return response.json();
+}

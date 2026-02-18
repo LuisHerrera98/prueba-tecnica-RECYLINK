@@ -2,6 +2,7 @@ import type { Event } from '../types/event';
 
 interface Props {
   event: Event;
+  onClick: () => void;
 }
 
 const statusLabels: Record<string, string> = {
@@ -17,7 +18,7 @@ const categoryLabels: Record<string, string> = {
   social: 'Social',
 };
 
-export default function EventCard({ event }: Props) {
+export default function EventCard({ event, onClick }: Props) {
   const formattedDate = new Date(event.date).toLocaleDateString('es-CL', {
     year: 'numeric',
     month: 'long',
@@ -27,7 +28,7 @@ export default function EventCard({ event }: Props) {
   });
 
   return (
-    <div className={`event-card event-card--${event.status}`}>
+    <div className={`event-card event-card--${event.status}`} onClick={onClick}>
       <div className="event-card__header">
         <span className="event-card__category">{categoryLabels[event.category]}</span>
         <span className={`event-card__status event-card__status--${event.status}`}>

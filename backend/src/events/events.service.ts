@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Event, EventCategory, EventStatus } from './schemas/event.schema';
 import { CreateEventDto } from './dto/create-event.dto';
+import { UpdateEventDto } from './dto/update-event.dto';
 
 @Injectable()
 export class EventsService {
@@ -22,6 +23,14 @@ export class EventsService {
 
   async findOne(id: string): Promise<Event> {
     const event = await this.eventModel.findById(id).exec();
+    if (!event) throw new NotFoundException(`Event ${id} not found`);
+    return event;
+  }
+
+  async update(id: string, updateEventDto: UpdateEventDto): Promise<Event> {
+    const event = await this.eventModel
+      .findByIdAndUpdate(id, updateEventDto, { new: true })
+      .exec();
     if (!event) throw new NotFoundException(`Event ${id} not found`);
     return event;
   }
