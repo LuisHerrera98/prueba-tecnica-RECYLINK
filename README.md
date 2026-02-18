@@ -14,7 +14,7 @@ Prueba técnica — **Opción A**: aplicación full-stack para gestionar eventos
 
 ### Con Docker (recomendado)
 
-Solo necesitás Docker instalado:
+Solo necesitás Docker instalado y corriendo ( En Mac abrir docker desktop):
 
 ```bash
 docker-compose up --build
